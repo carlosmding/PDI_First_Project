@@ -103,7 +103,7 @@ def calculate_vel(x1, x2, y1, y2, fds):
 
 def upload_video_and_paint():
     #Carga video de prueba desde el Drive
-    cap = cv2.VideoCapture("/content/drive/MyDrive/PYTHON/Video_MAS_prueba2.mp4") # Cambiar a "/content/Video_MAS_prueba2.mp4" si se usa video en entorno local
+    cap = cv2.VideoCapture("Video_MAS_prueba2.mp4") 
     if (cap.isOpened()== False): 
       print("Error opening video stream or file")
      
@@ -140,7 +140,7 @@ def upload_video_and_paint():
         
           # Se inicializan los parametros de método putText
           imag = paint_vel_ace(cm, vel, ac, cx2, cy2)
-          cv2.imshow(imag) 
+          cv2.imshow("Velocidad y Aceleracion del Centro de Masa", imag)
 
           #Se actualizan variables
           cx1 = cx2
@@ -162,4 +162,28 @@ def upload_video_and_paint():
     cv2.destroyAllWindows()
     return fds, velocities, acelarations
 
-frames, fds = upload_video()
+def minimus(centers_mass):
+  # Halla los valores minimo de variable x y el máximo de la variable y
+  min_x=centers_mass[0][0]
+  max_y=centers_mass[0][1]
+  for point in centers_mass:
+    if point[0]< min_x:
+      min_x=point[0]
+    elif point[1]> max_y:
+      max_y=point[1]
+  return min_x, max_y
+
+def transforms_var_x(centers):
+  # Transforma las variables usando los minimos y máximos
+  # Dado que 8 frames son un cms, se hace la conversión a cms
+  
+  min_x, max_y =minimus(centers)
+  var_x=[]
+  var_y=[]
+
+  for point in centers:
+      var_x.append((point[0]- min_x)/8)
+      var_y.append(np.abs(max_y - point[1] )/8)
+  
+  return var_x, var_y
+
