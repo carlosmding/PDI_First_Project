@@ -187,3 +187,58 @@ def transforms_var_x(centers):
   
   return var_x, var_y
 
+def graphic_position_x(var, fds):
+  # Dibuja gráfica de posición en x vs tiempo
+  tiempo=list(i/fds for i in range(len(var)))
+  plt.plot(tiempo,var, color="g")
+  plt.xlabel('Time (s)')
+  plt.ylabel('Posición en X (cms)')
+  plt.title('Posición en X del Centro de Masa')
+  plt.grid()
+  plt.show()
+
+def graphic_position_y(var, fds):
+  # Dibuja gráfica de posición en y vs tiempo
+  tiempo=list(i/fds for i in range(len(var)))
+  plt.plot(tiempo,var, color="g")
+  plt.xlabel('Time (s)')
+  plt.ylabel('Posición en Y (cms)')
+  plt.title('Posición en Y del Centro de Masa')
+  plt.grid()
+  plt.show()
+
+def graphic_vel_time(vel, fds):
+  # Dibuja gráfica de velocidad vs tiempo
+  tiempo=list(i/fds for i in range(len(vel)))
+  plt.plot(tiempo,vel, color="g")
+  plt.xlabel('Time (s)')
+  plt.ylabel('Velocidad (cms/s)')
+  plt.title('Velocidad del Centro de Masa')
+  plt.grid()
+  plt.show()
+  
+def graphic_ace_time(ace, fds):
+  # Dibuja gráfica de aceleración vs tiempo
+  tiempo=list(i/fds for i in range(len(ace)))
+  plt.plot(tiempo,ace, color="g")
+  plt.xlabel('Time (s)')
+  plt.ylabel('Aceleración (cms/s2)')
+  plt.title('Aceleración del Centro de Masa')
+  plt.grid()
+  plt.show()
+  
+frames, fds=upload_video()
+centers_mass = find_all_center_mass(frames)
+var_x, var_y = transforms_var_x(centers_mass)
+graphic_position_x(var_x, fds)
+graphic_position_y(var_y, fds)
+
+fds, vel, ace = upload_video_and_paint()
+graphic_vel_time(vel, fds)
+graphic_ace_time(ace, fds)
+
+#Con la regla se hace el ajuste, se evidencia que un cms equivale a 8 frames
+frame=frames[0]
+foto=frame[620:,19:27]
+cv2.imshow("Escala",foto)
+cv2.destroyAllWindows()
