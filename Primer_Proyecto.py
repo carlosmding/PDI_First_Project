@@ -12,7 +12,7 @@ import numpy as np
 def upload_video():
     #Carga el video y retorna una lista de todos los frames y el valor del fds
     
-    cap = cv2.VideoCapture("Video_MAS_prueba2.mp4") 
+    cap = cv2.VideoCapture("Video_MAS_v2.mp4") 
     if (cap.isOpened()== False): 
       print("Error opening video stream or file")
      
@@ -103,7 +103,7 @@ def calculate_vel(x1, x2, y1, y2, fds):
 
 def upload_video_and_paint():
     #Carga video de prueba desde el Drive
-    cap = cv2.VideoCapture("Video_MAS_prueba2.mp4") 
+    cap = cv2.VideoCapture("Video_MAS_v2.mp4") 
     if (cap.isOpened()== False): 
       print("Error opening video stream or file")
      
@@ -226,19 +226,23 @@ def graphic_ace_time(ace, fds):
   plt.title('Aceleración del Centro de Masa')
   plt.grid()
   plt.show()
-  
-frames, fds=upload_video()
-centers_mass = find_all_center_mass(frames)
-var_x, var_y = transforms_var_x(centers_mass)
-graphic_position_x(var_x, fds)
-graphic_position_y(var_y, fds)
 
-fds, vel, ace = upload_video_and_paint()
-graphic_vel_time(vel, fds)
-graphic_ace_time(ace, fds)
+def main():
+    frames, fds=upload_video()
+    centers_mass = find_all_center_mass(frames)
+    var_x, var_y = transforms_var_x(centers_mass)
+    graphic_position_x(var_x, fds)
+    graphic_position_y(var_y, fds)
+     
+    fds, vel, ace = upload_video_and_paint()
+    graphic_vel_time(vel, fds)
+    graphic_ace_time(ace, fds)
+    
+    #Con la regla se hace el ajuste, se evidencia que un cms equivale a 8 frames
+    frame=frames[0]
+    foto=frame[620:,19:27]
+    cv2.imshow("Escala",foto)
+    cv2.destroyAllWindows()
 
-#Con la regla se hace el ajuste, se evidencia que un cms equivale a 8 frames
-frame=frames[0]
-foto=frame[620:,19:27]
-cv2.imshow("Escala",foto)
-cv2.destroyAllWindows()
+main()
+
