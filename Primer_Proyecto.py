@@ -236,7 +236,7 @@ def main():
      
     fds, vel, ace = upload_video_and_paint()
     graphic_vel_time(vel, fds)
-    graphic_ace_time(ace, fds)
+    graphic_ace_time(ace[1:], fds) #Corrección primer valor aceleración
     
     #Con la regla se hace el ajuste, se evidencia que un cms equivale a 8 frames
     frame=frames[0]
@@ -245,4 +245,7 @@ def main():
     cv2.destroyAllWindows()
 
 main()
+
+#Pendiente definir criterios para valorar por qué es un movimiento armónico simple
+#Comparara gráficas posición, velocidad y aceleración vs tiempo (s)
 
