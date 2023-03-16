@@ -228,21 +228,23 @@ def graphic_ace_time(ace, fds):
   plt.show()
 
 def main():
-    frames, fds=upload_video()
-    centers_mass = find_all_center_mass(frames)
-    var_x, var_y = transforms_var_x(centers_mass)
-    graphic_position_x(var_x, fds)
-    graphic_position_y(var_y, fds)
+  frames, fds=upload_video()
+  centers_mass = find_all_center_mass(frames)
+  var_x, var_y = transforms_var_x(centers_mass)
+  graphic_position_x(var_x, fds)
+  graphic_position_y(var_y, fds)
      
-    fds, vel, ace = upload_video_and_paint()
-    graphic_vel_time(vel, fds)
-    graphic_ace_time(ace[1:], fds) #Corrección primer valor aceleración
+  fds, vel, ace = upload_video_and_paint()
+  graphic_vel_time(vel, fds)
+  graphic_ace_time(ace[1:], fds) #Corrección primer valor aceleración
+  rule(frames)
     
-    #Con la regla se hace el ajuste, se evidencia que un cms equivale a 8 frames
-    frame=frames[0]
-    foto=frame[620:,19:27]
-    cv2.imshow("Escala",foto)
-    cv2.destroyAllWindows()
+def rule(frames):
+  #Con la regla se hace el ajuste, se evidencia que un cms equivale a 8 frames
+  frame=frames[0]
+  foto=frame[620:,19:27]
+  cv2.imshow("Escala",foto)
+  cv2.destroyAllWindows()
 
 main()
 
