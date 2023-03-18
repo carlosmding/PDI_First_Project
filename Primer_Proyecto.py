@@ -238,6 +238,7 @@ def main():
   graphic_vel_time(vel, fds)
   graphic_ace_time(ace[1:], fds) #Corrección primer valor aceleración
   rule(frames)
+  graphic_mas(frames, fds)
     
 def rule(frames):
   #Con la regla se hace el ajuste, se evidencia que un cms equivale a 8 frames
@@ -246,7 +247,23 @@ def rule(frames):
   cv2.imshow("Escala",foto)
   cv2.destroyAllWindows()
 
+def graphic_mas(frames, fds):
+  #Para comprobar el MUS se hace una sección de 4 segundos
+  frames_prueba=frames[33:150]
+  centers_mass = find_all_center_mass(frames_prueba)
+  var_x, var_y = transforms_var_x(centers_mass)
+  tiempo=list(i/fds for i in range(len(var_x)))
+  y=[16.5,16.5,16.5,16.5,16.5]
+  plt.plot(tiempo,var_x, color="g")
+  plt.plot(y, color="black")
+  plt.xlabel('Time (s)')
+  plt.ylabel('Posición en X (cms)')
+  plt.title('Posición en X del Centro de Masa')
+  plt.grid()
+  plt.show()
+
 main()
+
 
 #Pendiente definir criterios para valorar por qué es un movimiento armónico simple
 #Comparara gráficas posición, velocidad y aceleración vs tiempo (s)
