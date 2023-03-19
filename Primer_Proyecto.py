@@ -85,14 +85,14 @@ def find_all_center_mass(frames):
     centers_mass.append(find_mass_center(frame))
   return centers_mass
 
-def paint_vel_ace(imag, vel, ac, cx2, cy2):
+def paint_vel_ace(imag, vel, ac):
   #Retorna una imagen con el texto de la velocidad y acelaración calculada 
   font = cv2.FONT_ITALIC
   tamañoLetra = 0.5
   colorLetra = (0,0,255)
   grosorLetra = 1
   texto=f"v={vel} cm/s a={ac} cm/s2"
-  cv2.putText(imag, texto, (cx2, cy2-50), font, tamañoLetra, colorLetra, grosorLetra)
+  cv2.putText(imag, texto, (80, 50), font, tamañoLetra, colorLetra, grosorLetra)
   return imag
 
 def calculate_vel(x1, x2, y1, y2, fds):
@@ -139,7 +139,7 @@ def upload_video_and_paint():
           acelarations.append(ac)
         
           # Se inicializan los parametros de método putText
-          imag = paint_vel_ace(cm, vel, ac, cx2, cy2)
+          imag = paint_vel_ace(cm, vel, ac)
           cv2.imshow("Velocidad y Aceleracion del Centro de Masa", imag)
 
           #Se actualizan variables
@@ -173,7 +173,7 @@ def minimus(centers_mass):
       max_y=point[1]
   return min_x, max_y
 
-def transforms_var_x(centers):
+def transforms_var(centers):
   # Transforma las variables usando los minimos y máximos
   # Dado que 8 frames son un cms, se hace la conversión a cms
   
@@ -230,7 +230,7 @@ def graphic_ace_time(ace, fds):
 def main():
   frames, fds=upload_video()
   centers_mass = find_all_center_mass(frames)
-  var_x, var_y = transforms_var_x(centers_mass)
+  var_x, var_y = transforms_var(centers_mass)
   graphic_position_x(var_x, fds)
   graphic_position_y(var_y, fds)
      
@@ -251,7 +251,7 @@ def graphic_mas(frames, fds):
   #Para comprobar el MUS se hace una sección de 4 segundos
   frames_prueba=frames[33:150]
   centers_mass = find_all_center_mass(frames_prueba)
-  var_x, var_y = transforms_var_x(centers_mass)
+  var_x, var_y = transforms_var(centers_mass)
   tiempo=list(i/fds for i in range(len(var_x)))
   y=[16.5,16.5,16.5,16.5,16.5]
   plt.plot(tiempo,var_x, color="g")
