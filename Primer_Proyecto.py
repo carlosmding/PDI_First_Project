@@ -241,7 +241,7 @@ def main():
   graphic_mas(frames, fds)
     
 def rule(frames):
-  #Con la regla se hace el ajuste, se evidencia que un cms equivale a 8 frames
+  #Con la regla se hace el ajuste, se evidencia que un cms equivale a 8 pixeles; desde el pixel 19 hasta el 27
   frame=frames[0]
   foto=frame[620:,19:27]
   cv2.imshow("Escala",foto)
@@ -261,10 +261,10 @@ def graphic_mas(frames, fds):
   plt.title('Posición en X del Centro de Masa')
   plt.grid()
   plt.show()
+  
+  #Se evidencia un periodo de 1.5 segundo
 
 main()
 
-
-#Pendiente definir criterios para valorar por qué es un movimiento armónico simple
-#Comparara gráficas posición, velocidad y aceleración vs tiempo (s)
+#Quedó faltando haer los cálculos de la velocidad real para comnpararla con las cálculadas
 
